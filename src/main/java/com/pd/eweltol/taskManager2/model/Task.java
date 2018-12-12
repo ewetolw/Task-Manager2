@@ -2,6 +2,7 @@ package com.pd.eweltol.taskManager2.model;
 
 
 
+import com.pd.eweltol.taskManager2.model.types.ProblemStatus;
 import com.pd.eweltol.taskManager2.model.types.TaskStatus;
 import javax.persistence.*;
 import java.util.Date;
@@ -24,7 +25,10 @@ public class Task {
     @JoinColumn(name = "user_id")
     private User contractor;
 
+    @Column(columnDefinition = "TEXT")
     private String feedback;
+
+    private String taskContent;
 
     private TaskStatus status;
 
@@ -38,7 +42,13 @@ public class Task {
 
     }
 
+    public String getTaskContent() {
+        return taskContent;
+    }
 
+    public void setTaskContent(String taskContent) {
+        this.taskContent = taskContent;
+    }
 
     public Long getId() {
         return id;
@@ -87,4 +97,14 @@ public class Task {
     public void setChangeStatusDate(Date changeStatusDate) {
         this.changeStatusDate = changeStatusDate;
     }
+
+    public boolean changeStatus(TaskStatus taskStatus){
+
+        if(taskStatus.getNr()>=this.status.getNr() && (this.getStatus()!=TaskStatus.CANCELED ||this.getStatus()!=TaskStatus.FINISHED) ){
+            this.setStatus(taskStatus);
+            return true;
+        }
+        return false;
+    }
+
 }

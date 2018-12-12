@@ -2,9 +2,12 @@ package com.pd.eweltol.taskManager2.model;
 
 
 
+import com.pd.eweltol.taskManager2.model.types.ProblemStatus;
 import com.pd.eweltol.taskManager2.model.types.TaskStatus;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +30,9 @@ public class Problem {
     @JoinColumn(name = "user_id")
     private User principal;
 
+    @NotNull(message = "content must not be null")
+    @Size(min=15, message = "contetn is too short. Write min. 15 characters!")
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     private Date openDate;
@@ -35,7 +41,7 @@ public class Problem {
 
     private String client;
 
-    private TaskStatus status;
+    private ProblemStatus status;
 
 
 
@@ -43,7 +49,7 @@ public class Problem {
     }
 
 
-    public Problem(User principal, String content, Date openDate, Date changeStatusDate, String client, TaskStatus status) {
+    public Problem(User principal, String content, Date openDate, Date changeStatusDate, String client, ProblemStatus status) {
         this.principal = principal;
         this.content = content;
         this.openDate = openDate;
@@ -60,11 +66,11 @@ public class Problem {
         this.tasksList = tasksList;
     }
 
-    public TaskStatus getStatus() {
+    public ProblemStatus getStatus() {
         return status;
     }
 
-    public void setStatus(TaskStatus status) {
+    public void setStatus(ProblemStatus status) {
         this.status = status;
     }
 
@@ -92,14 +98,6 @@ public class Problem {
         this.id = id;
     }
 
-    public User getPrincipalId() {
-        return principal;
-    }
-
-    public void setPrincipalId(User principal) {
-        this.principal = principal;
-    }
-
     public String getContent() {
         return content;
     }
@@ -123,4 +121,24 @@ public class Problem {
     public void setClient(String client) {
         this.client = client;
     }
+
+
+    public boolean changeStatus(ProblemStatus problemStatus){
+
+        if(problemStatus.getNr()>=this.status.getNr()){
+            this.setStatus(problemStatus);
+            return true;
+        }
+        return false;
+    }
+
+    public void updateProblemfield(Problem updateData){
+
+        this.setContent(updateData.getContent());
+        this.setClient(updateData.getClient());
+
+    }
+
+
+
 }

@@ -12,8 +12,6 @@ import java.util.List;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
-    List<Task>  findAllByContractor(User u);
+    List<Task> findAllByContractor(User u);
     List<Task> findAllByContractorAndStatusIsNotAndAndStatusIsNot(User u, TaskStatus taskStatus1, TaskStatus taskStatus2);
-
-
 }

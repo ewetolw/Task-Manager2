@@ -23,14 +23,14 @@ public class ManagerController {
     @Autowired
     ManagerService managerService;
 
-    @GetMapping("/getProblems")
+    @GetMapping("/problems")
     @ResponseBody
     public ResponseEntity getAllProblems(){
         List<Problem> problems= managerService.getProblems();
         return ResponseEntity.ok(problems);
     }
 
-    @GetMapping("/getWorkers")
+    @GetMapping("/workers")
     @ResponseBody
     public ResponseEntity getAllWorkers(){
         List<User> usersList= managerService.getUsers();
@@ -38,7 +38,7 @@ public class ManagerController {
     }
 
 
-    @GetMapping("/getProblem/id/{id}")
+    @GetMapping("/problem/id/{id}")
     @ResponseBody
     public ResponseEntity getProblemById(@PathVariable(value="id") String id){
         Long ID;
@@ -51,7 +51,7 @@ public class ManagerController {
         return ResponseEntity.ok().body(problems);
     }
 
-    @GetMapping("/getProblem/client/{client}")
+    @GetMapping("/problem/client/{client}")
     @ResponseBody
     public ResponseEntity getProblemByClient(@PathVariable(value="client") String client){
         List<Problem> problems = managerService.getProblemByClient(client);
@@ -59,7 +59,7 @@ public class ManagerController {
     }
 
 
-    @GetMapping("/getProblem/date/{date}")
+    @GetMapping("/problem/date/{date}")
     @ResponseBody
     public ResponseEntity getProblemByDate(@PathVariable(value="date") String date){
        List<Problem> problemList = new ArrayList<>();
@@ -73,21 +73,21 @@ public class ManagerController {
     }
 
 
-    @GetMapping("/getProblem/status/{status}")
+    @GetMapping("/problem/status/{status}")
     @ResponseBody
     public ResponseEntity getProblemByStatus(@PathVariable(value="status") String status){
        return ResponseEntity.ok().body(managerService.getProblemByStatus(status));
     }
 
 
-    @GetMapping("/getProblem/noManager")
+    @GetMapping("/problem/noManager")
     @ResponseBody
     public ResponseEntity getProblemsWithoutManager(){
         return ResponseEntity.ok().body(managerService.getProblemWithoutManager());
     }
 
 
-    @PostMapping("/addProblem")
+    @PostMapping("/problem")
     @ResponseBody
     public ResponseEntity addProblem(@Valid @RequestBody Problem problem){
         try {
@@ -98,7 +98,7 @@ public class ManagerController {
         return ResponseEntity.ok().body("{\"successful\" : \"added problem\"}");
     }
 
-    @DeleteMapping("/deleteProblem/{id}")
+    @DeleteMapping("/problem/{id}")
     @ResponseBody
     public ResponseEntity deleteProblem(@PathVariable(value="id") Long id){
         boolean deleted;
@@ -116,7 +116,7 @@ public class ManagerController {
 
 
 
-    @PutMapping("/updateProblem")
+    @PutMapping("/problem")
     @ResponseBody
     public ResponseEntity updateProblem(@Valid @RequestBody Problem problem){
         boolean updated;
@@ -136,7 +136,7 @@ public class ManagerController {
 
 
 
-    @PostMapping("/changeStatus")
+    @PostMapping("/problemStatus")
     @ResponseBody
     public ResponseEntity changeStatusProblem(@RequestBody Problem status){
         boolean updateStatus;
@@ -153,7 +153,7 @@ public class ManagerController {
     }
 
 
-    @PostMapping("/takeOverProblemWithoutManager/{id}")
+    @PostMapping("/problemWithoutManager/{id}")
     @ResponseBody
     public ResponseEntity takeOverProblemWithoutManager(@PathVariable(value="id") Long id){
         boolean tookOverProblem;
@@ -171,7 +171,7 @@ public class ManagerController {
     }
 
 
-    @PostMapping("/addTask/{problemid}/{userid}")
+    @PostMapping("/task/{problemid}/{userid}")
     @ResponseBody
     public ResponseEntity addTask(@RequestBody Task task ,@PathVariable(value="problemid") Long problemid, @PathVariable(value="userid") Long userid){
        boolean addedTask;
@@ -191,7 +191,7 @@ public class ManagerController {
 
     }
 
-    @PutMapping("/updateTaskContent/{workerId}")
+    @PutMapping("/taskContent/{workerId}")
     @ResponseBody
     public ResponseEntity updateTaskContent(@RequestBody Task task, @PathVariable(value="workerId") Long workerId){
         boolean updatedTask;
@@ -209,7 +209,7 @@ public class ManagerController {
 
 
 
-    @DeleteMapping("/deleteTask/{id}")
+    @DeleteMapping("/task/{id}")
     @ResponseBody
     public ResponseEntity deleteTask(@PathVariable(value="id") Long id){
         boolean deletedtask;
@@ -226,7 +226,7 @@ public class ManagerController {
 
     }
 
-    @PutMapping("/assignTask/{taskId}/{workerId}/{problemId}")
+    @PutMapping("/task/{taskId}/{workerId}/{problemId}")
     public ResponseEntity assignTask(@PathVariable(value="taskId") Long taskId,
                                      @PathVariable(value="workerId") Long workerId,
                                      @PathVariable(value="problemId") Long problemId){

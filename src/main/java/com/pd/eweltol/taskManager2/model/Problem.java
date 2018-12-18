@@ -39,7 +39,9 @@ public class Problem {
 
     private Date changeStatusDate;
 
-    private String client;
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
 
     private ProblemStatus status;
 
@@ -49,7 +51,7 @@ public class Problem {
     }
 
 
-    public Problem(User principal, String content, Date openDate, Date changeStatusDate, String client, ProblemStatus status) {
+    public Problem(User principal, String content, Date openDate, Date changeStatusDate, Client client, ProblemStatus status) {
         this.principal = principal;
         this.content = content;
         this.openDate = openDate;
@@ -114,11 +116,11 @@ public class Problem {
         this.openDate = openDate;
     }
 
-    public String getClient() {
+    public Client getClient() {
         return client;
     }
 
-    public void setClient(String client) {
+    public void setClient(Client client) {
         this.client = client;
     }
 
@@ -135,8 +137,9 @@ public class Problem {
     public void updateProblemfield(Problem updateData){
 
         this.setContent(updateData.getContent());
-        this.setClient(updateData.getClient());
-
+//        if(updateData.client.getClient()!=null) {
+//            this.setClient(updateData.getClient());
+//        }
     }
 
 

@@ -18,9 +18,7 @@ public class WorkerController {
     @GetMapping("/getMyTasks")
     @ResponseBody
     public ResponseEntity getMyTasks(){
-
         return ResponseEntity.ok().body(workerService.getMyTasks());
-
     }
 
 

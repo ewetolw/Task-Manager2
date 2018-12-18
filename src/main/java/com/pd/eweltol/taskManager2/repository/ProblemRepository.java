@@ -1,6 +1,7 @@
 package com.pd.eweltol.taskManager2.repository;
 
 import com.pd.eweltol.taskManager2.model.Problem;
+import com.pd.eweltol.taskManager2.model.Task;
 import com.pd.eweltol.taskManager2.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,4 +13,5 @@ import java.util.List;
 public interface ProblemRepository extends JpaRepository<Problem, Long> {
     List<Problem> findProblemByPrincipal(User user);
     List<Problem> findProblemByPrincipalIsNull();
+    Problem findProblemByTasksListContaining(Task task);
 }

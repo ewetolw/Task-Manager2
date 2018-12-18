@@ -3,9 +3,11 @@ package com.pd.eweltol.taskManager2.service;
 
 
 import com.pd.eweltol.taskManager2.dto.ProblemPackage;
+import com.pd.eweltol.taskManager2.model.Client;
 import com.pd.eweltol.taskManager2.model.Problem;
 import com.pd.eweltol.taskManager2.model.User;
 import com.pd.eweltol.taskManager2.model.types.ProblemStatus;
+import com.pd.eweltol.taskManager2.repository.ClientRepository;
 import com.pd.eweltol.taskManager2.repository.ProblemRepository;
 import com.pd.eweltol.taskManager2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ public class ProblemService{
     ProblemRepository problemRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    ClientRepository clientRepository;
 
     public List<Problem> findAllProblems(String username){
 
@@ -48,7 +52,7 @@ public class ProblemService{
         User user = userRepository.findByUsername(username);
         List<Problem> currentUserProblemList = problemRepository.findProblemByPrincipal(user);
         for(Problem p : currentUserProblemList){
-            if(p.getClient().equals(client)){
+            if(p.getClient().getClient().equals(client)){
                 clientsProblems.add(p);
             }
         }
@@ -61,26 +65,20 @@ public class ProblemService{
         problem.setId(null);
         problem.setStatus(ProblemStatus.NEW);
         problem.setOpenDate(new Date());
-        problem.setClient(problem.getClient().toUpperCase());
+        Client client = new Client();
+
+        if(clientRepository.findByClient(problem.getClient().getClient().toUpperCase())==null){
+            client.setClient(problem.getClient().getClient().toUpperCase());
+            clientRepository.save(client);
+        }
+
+        Client dbClient=clientRepository.findByClient(problem.getClient().getClient().toUpperCase());
+        problem.setClient(dbClient);
         problem.setPrincipal(userRepository.findByUsername(username));
         problemRepository.save(problem);
     }
 
 
-    public void addProblemPackage(String username, ProblemPackage problemPackage){
-
-        Problem problem = problemPackage.getProblem();
-        problem.setChangeStatusDate(null);
-        problem.setTasksList(null);
-        problem.setId(null);
-        problem.setStatus(ProblemStatus.NEW);
-        problem.setOpenDate(new Date());
-        problem.setPrincipal(userRepository.findByUsername(username));
-        problemRepository.save(problem);
-        problem.getId();
-        System.out.println((problem.getId()));
-
-    }
 
 
 

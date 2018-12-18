@@ -13,9 +13,7 @@ import com.pd.eweltol.taskManager2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class TaskService {
@@ -131,11 +129,16 @@ public class TaskService {
     }
 
 
-    public List<Task> getMyTasks(String username){
+    public List<Task> getMyTasks(String username) {
 
         User user = userRepository.findByUsername(username);
-        return taskRepository.findAllByContractor(user);
+        List<Task> tasks = taskRepository.findAllByContractor(user);
+        Set<Problem> problem = new HashSet<>();
+        for (Task t : tasks){
+           problem.add( problemRepository.findProblemByTasksListContaining(t));
+        }
 
+        return null;
     }
 
     public boolean changeTaskStatus(String username,Task task){

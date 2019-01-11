@@ -31,6 +31,7 @@ public class User {
     @Column(unique = true)
     private String email;
     @NotNull(message= "role must not be null")
+    @Enumerated(EnumType.STRING)
     private Role role;
     private Boolean activated;
 

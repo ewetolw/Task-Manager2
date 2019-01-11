@@ -12,25 +12,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class CustomUserService implements UserDetailsService {
+    public class CustomUserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    public CustomUserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        com.pd.eweltol.taskManager2.model.User user = userRepository.findByUsername(username);
-        if(user!=null){
-            List<GrantedAuthority> authorityList = new ArrayList<>();
-            System.out.println(user.getRole().toString());
-            authorityList.add(new SimpleGrantedAuthority(user.getRole().toString()));
-            return new User(user.getUsername(), user.getPassword(), authorityList);
+        public CustomUserService(UserRepository userRepository) {
+            this.userRepository = userRepository;
         }
-        throw new UsernameNotFoundException("User: "+ username+" doesn't exist");
+
+
+        @Override
+        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+            com.pd.eweltol.taskManager2.model.User user = userRepository.findByUsername(username);
+            if(user!=null){
+                List<GrantedAuthority> authorityList = new ArrayList<>();
+                System.out.println(user.getRole().toString());
+                authorityList.add(new SimpleGrantedAuthority(user.getRole().toString()));
+                return new User(user.getUsername(), user.getPassword(), authorityList);
+            }
+            throw new UsernameNotFoundException("User: "+ username+" doesn't exist");
+        }
     }
-}

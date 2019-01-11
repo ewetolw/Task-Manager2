@@ -3,7 +3,6 @@ package com.pd.eweltol.taskManager2.model;
 
 
 import com.pd.eweltol.taskManager2.model.types.ProblemStatus;
-import com.pd.eweltol.taskManager2.model.types.TaskStatus;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,7 +14,6 @@ import java.util.List;
 @Entity
 @Table(name="PROBLEMS")
 public class Problem {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,8 +28,6 @@ public class Problem {
     @JoinColumn(name = "user_id")
     private User principal;
 
-    @NotNull(message = "content must not be null")
-    @Size(min=15, message = "contetn is too short. Write min. 15 characters!")
     @Column(columnDefinition = "TEXT")
     private String content;
 
@@ -43,6 +39,7 @@ public class Problem {
     @JoinColumn(name = "client_id")
     private Client client;
 
+    @Enumerated(EnumType.STRING)
     private ProblemStatus status;
 
 
@@ -91,7 +88,6 @@ public class Problem {
     public void setChangeStatusDate(Date changeStatusDate) {
         this.changeStatusDate = changeStatusDate;
     }
-
     public Long getId() {
         return id;
     }
@@ -123,6 +119,7 @@ public class Problem {
     public void setClient(Client client) {
         this.client = client;
     }
+
 
 
     public boolean changeStatus(ProblemStatus problemStatus){

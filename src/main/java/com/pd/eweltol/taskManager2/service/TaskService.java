@@ -130,7 +130,6 @@ public class TaskService {
 
 
     public List<Task> getMyTasks(String username) {
-
         User user = userRepository.findByUsername(username);
         List<Task> tasks = taskRepository.findAllByContractor(user);
         Set<Problem> problem = new HashSet<>();
